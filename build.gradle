@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
     id "org.openapi.generator" version "4.3.1"
+    id "org.asciidoctor.jvm.convert" version "3.2.0"
 }
 
 group 'ru.uip'
@@ -28,7 +29,20 @@ dependencies {
 
 openApiGenerate {
     generatorName = "asciidoc"
-    inputSpec = "$rootDir/src/main/api/api.yaml".toString()
-    templateDir = "$rootDir/src/main/api/template"
+    inputSpec = "$projectDir/src/main/api/api.yaml".toString()
+    templateDir = "$projectDir/src/main/api/template".toString()
     outputDir = "$buildDir/generated-docs".toString()
+    configOptions = [
+            specDir: "$projectDir/src/main/api/template".toString(),
+            snippetDir: "$projectDir/src/main/api/template".toString()
+    ]
 }
+
+asciidoctor {
+    sourceDir  file("${buildDir}/generated-docs")
+    outputDir  file('build/docs')
+}
+
+build.dependsOn("asciidoctor")
+asciidoctor.dependsOn("openApiGenerate")
+

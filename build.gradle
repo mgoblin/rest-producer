@@ -29,5 +29,6 @@ dependencies {
 openApiGenerate {
     generatorName = "asciidoc"
     inputSpec = "$rootDir/src/main/api/api.yaml".toString()
+    templateDir = "$rootDir/src/main/api/template"
     outputDir = "$buildDir/generated-docs".toString()
 }

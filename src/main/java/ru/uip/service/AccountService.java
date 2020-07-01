@@ -20,15 +20,15 @@ public class AccountService {
 
     public AccountService() {
         final JsonAccount accountMike = new JsonAccount(
-                "MikeAccount",
                 "1",
+                "MikeAccount",
                 1000,
                 EnumAccountStatus.ACTIVE);
         accounts.add(accountMike);
 
         final JsonAccount accountAlex = new JsonAccount(
-                "AlexAccount",
                 "2",
+                "AlexAccount",
                 200,
                 EnumAccountStatus.INACTIVE
         );

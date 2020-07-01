@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.3.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id "org.openapi.generator" version "4.3.1"
 }
 
 group 'ru.uip'
@@ -23,5 +24,10 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+}
 
+openApiGenerate {
+    generatorName = "asciidoc"
+    inputSpec = "$rootDir/src/main/api/api.yaml".toString()
+    outputDir = "$buildDir/generated-docs".toString()
 }

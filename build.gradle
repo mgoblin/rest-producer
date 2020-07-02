@@ -4,6 +4,8 @@ plugins {
     id 'java'
     id "org.openapi.generator" version "4.3.1"
     id "org.asciidoctor.jvm.convert" version "3.2.0"
+    id "org.springframework.cloud.contract" version "2.2.3.RELEASE"
+    id 'jacoco'
 }
 
 group 'ru.uip'
@@ -25,7 +27,18 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
+    testImplementation "io.rest-assured:spring-web-test-client:4.3.0"
+    testImplementation "io.rest-assured:rest-assured-all:4.3.0"
+    testImplementation "org.springframework.restdocs:spring-restdocs-restassured"
 }
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-contract-dependencies:2.1.3.RELEASE"
+    }
+}
+
 
 openApiGenerate {
     generatorName = "asciidoc"
@@ -41,6 +54,26 @@ openApiGenerate {
 asciidoctor {
     sourceDir  file("${buildDir}/generated-docs")
     outputDir  file('build/docs')
+}
+
+contracts {
+    baseClassForTests = 'ru.uip.BaseTest'
+    testMode = 'EXPLICIT'
+    testFramework = 'JUNIT5'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'ru/uip/Application.class')
+        }))
+    }
 }
 
 build.dependsOn("asciidoctor")

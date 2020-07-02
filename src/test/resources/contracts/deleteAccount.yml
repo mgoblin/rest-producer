@@ -1,0 +1,40 @@
+description: >
+  Delete existing account balance with id = 1.
+name: Should delete account with id equals to 1
+request:
+  method: DELETE
+  url: /account
+  headers:
+    Content-type: application/json
+  body:
+    "accountNumber": "1"
+    "accountName": "MikeAccount"
+    "accountStatus": "ACTIVE"
+    "accountBalance": 1000.0
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    "accountNumber": "1"
+    "accountName": "MikeAccount"
+    "accountStatus": "ACTIVE"
+    "accountBalance": 1000
+---
+description: >
+  On delete nonexisting account return HTTP 404.
+name: Should try to delete nonexistent account
+request:
+  method: DELETE
+  url: /account
+  headers:
+    Content-type: application/json
+  body:
+    "accountNumber": "5"
+    "accountName": "Account"
+    "accountStatus": "ACTIVE"
+    "accountBalance": 1000.0
+response:
+  status: 404
+  headers:
+    Content-Type: application/json

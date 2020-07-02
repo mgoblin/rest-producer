@@ -37,10 +37,6 @@ public class AccountService {
     }
 
     public Optional<JsonAccount> findByNumber(String number) {
-        if (number == null || "".equals(number.trim())) {
-            return Optional.empty();
-        }
-
         return accounts.stream()
                 .filter(a -> a.getAccountNumber().equals(number))
                 .findFirst();
@@ -59,7 +55,7 @@ public class AccountService {
     }
 
     private JsonAccount create(CreateJsonAccount account) {
-        if (account.getAccountNumber() == null || account.getAccountNumber().isBlank()) {
+        if (account.getAccountNumber() == null) {
             account.setAccountNumber(generateId());
         }
         return new JsonAccount(

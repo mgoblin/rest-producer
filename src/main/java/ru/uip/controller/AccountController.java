@@ -11,6 +11,7 @@ import ru.uip.model.JsonAccountNumber;
 import ru.uip.service.AccountService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class AccountController {
 
     @GetMapping(value = "/{accountNumber}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Mono<JsonAccount>> getAccount(
-            @PathVariable(name = "accountNumber") String accountNumber) {
+            @NotBlank @PathVariable(name = "accountNumber") String accountNumber) {
         final Optional<JsonAccount> existingAccount = accountService.findByNumber(accountNumber);
         return existingAccount
                 .map(jsonAccount -> ResponseEntity.ok(Mono.just(jsonAccount)))
@@ -45,14 +46,9 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Mono<JsonAccount>> update(@RequestBody @Valid CreateJsonAccount account) {
-        final Optional<JsonAccount> updatedAccount = Optional.of(accountService.createOrUpdate(account));
-        return updatedAccount
-                .map(jsonAccount -> ResponseEntity.ok(Mono.just(jsonAccount)))
-                .orElseGet(() -> ResponseEntity
-                        .notFound()
-                        .header("Content-type", APPLICATION_JSON_VALUE)
-                        .build());
+    public ResponseEntity<Mono<JsonAccount>> createOrUpdate(@RequestBody @Valid CreateJsonAccount account) {
+        final JsonAccount updatedAccount = accountService.createOrUpdate(account);
+        return ResponseEntity.ok(Mono.just(updatedAccount));
     }
 
     @DeleteMapping
@@ -60,7 +56,10 @@ public class AccountController {
         final Optional<JsonAccount> deletedAccount = accountService.delete(accountNumber.getAccountNumber());
         return deletedAccount
                 .map(jsonAccount -> ResponseEntity.ok(Mono.just(jsonAccount)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity
+                        .notFound()
+                        .header("Content-type", APPLICATION_JSON_VALUE)
+                        .build());
     }
 
 }

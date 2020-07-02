@@ -13,11 +13,109 @@ servers:
   - url: http://localhost:9090
 
 paths:
-  /account/:
+  /account:
     get:
+      summary: "Получение списка аккаунтов"
       operationId: GetAccounts
-      description: Получение списка аккаунтов
       responses:
         '200':
           description: Успешное получение списка
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JsonAccount'
+    post:
+      summary: "Создание нового или обновление существующего аккаунта"
+      operationId: CreateOrUpdateAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJsonAccount'
+            examples:
+              account:
+                summary: Пример аккаунта
+                value:
+                  accountName: "Vasya"
+                  accountBalance: 300
+                  accountStatus: "ACTIVE"
+      responses:
+        '200':
+          description: Успешное создание аккаунта
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateJsonAccount'
+  /account/{accountNumber}:
+    get:
+      summary: "Поиск аккаунта по Id"
+      operationId: FindAccountById
+      parameters:
+        - name: "accountNumber"
+          in: "path"
+          description: "ID аккаунта"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Аккаунт успешно найден
+        '404':
+          description: Аккаунт не найден
+    delete:
+      summary: "Удаление аккаунта по Id"
+      operationId: DeleteAccount
+      parameters:
+        - name: "accountNumber"
+          in: "path"
+          description: "ID аккаунта"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешное удаление аккаунта
+        '404':
+          description: Аккаунт не найден
 
+components:
+  schemas:
+    JsonAccount:
+      type: "object"
+      properties:
+        accountNumber:
+          type: "string"
+        accountName:
+          type: "string"
+        accountBalance:
+          type: "number"
+          format: "double"
+        accountStatus:
+          type: "string"
+          description: "Статус аккаунта"
+          enum:
+            - "ACTIVE"
+            - "INACTIVE"
+    CreateJsonAccount:
+      type: "object"
+      required:
+        - accountName
+        - accountBalance
+        - accountStatus
+      properties:
+        accountNumber:
+          type: "string"
+        accountName:
+          type: "string"
+        accountBalance:
+          type: "number"
+          format: "double"
+        accountStatus:
+          type: "string"
+          description: "Статус аккаунта"
+          enum:
+            - "ACTIVE"
+            - "INACTIVE"

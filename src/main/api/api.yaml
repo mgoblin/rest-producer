@@ -17,7 +17,6 @@ paths:
     get:
       summary: "Получение списка аккаунтов"
       operationId: GetAccounts
-      description: ""
       responses:
         '200':
           description: Успешное получение списка
@@ -28,9 +27,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/JsonAccount'
     post:
-      summary: "Создание нового аккаунта"
-      operationId: CreateAccount
-      description: ""
+      summary: "Создание нового или обновление существующего аккаунта"
+      operationId: CreateOrUpdateAccount
       requestBody:
         required: true
         content:
@@ -51,37 +49,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateJsonAccount'
-    put:
-      summary: "Обновление данных аккаунта"
-      operationId: UpdateAccount
-      description: ""
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/JsonAccount'
-            examples:
-              account:
-                summary: Пример аккаунта
-                value:
-                  accountNumber: "1"
-                  accountName: "LenyaAccount"
-                  accountBalance: 300
-                  accountStatus: "ACTIVE"
-      responses:
-        '200':
-          description: Успешное обновление аккаунта
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateJsonAccount'
-
   /account/{accountNumber}:
     get:
-      summary: "Получение аккаунта по Id"
-      operationId: FindById
-      description: ""
+      summary: "Поиск аккаунта по Id"
+      operationId: FindAccountById
       parameters:
         - name: "accountNumber"
           in: "path"
@@ -97,7 +68,6 @@ paths:
     delete:
       summary: "Удаление аккаунта по Id"
       operationId: DeleteAccount
-      description: ""
       parameters:
         - name: "accountNumber"
           in: "path"
@@ -108,6 +78,8 @@ paths:
       responses:
         '200':
           description: Успешное удаление аккаунта
+        '404':
+          description: Аккаунт не найден
 
 components:
   schemas:
@@ -127,11 +99,6 @@ components:
           enum:
             - "ACTIVE"
             - "INACTIVE"
-    JsonAccountNumber:
-      type: "object"
-      properties:
-        accountNumber:
-          type: "string"
     CreateJsonAccount:
       type: "object"
       required:

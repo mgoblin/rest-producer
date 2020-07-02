@@ -47,13 +47,14 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<Mono<JsonAccount>> createOrUpdate(@RequestBody @Valid CreateJsonAccount account) {
+        System.out.println(account);
         final JsonAccount updatedAccount = accountService.createOrUpdate(account);
         return ResponseEntity.ok(Mono.just(updatedAccount));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Mono<JsonAccount>> delete(@RequestBody @Valid JsonAccountNumber accountNumber) {
-        final Optional<JsonAccount> deletedAccount = accountService.delete(accountNumber.getAccountNumber());
+    @DeleteMapping(value = "/{accountNumber}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Mono<JsonAccount>> delete(@NotBlank @PathVariable(name = "accountNumber") String accountNumber) {
+        final Optional<JsonAccount> deletedAccount = accountService.delete(accountNumber);
         return deletedAccount
                 .map(jsonAccount -> ResponseEntity.ok(Mono.just(jsonAccount)))
                 .orElseGet(() -> ResponseEntity

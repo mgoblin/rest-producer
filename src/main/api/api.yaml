@@ -13,11 +13,142 @@ servers:
   - url: http://localhost:9090
 
 paths:
-  /account/:
+  /account:
     get:
+      summary: "Получение списка аккаунтов"
       operationId: GetAccounts
-      description: Получение списка аккаунтов
+      description: ""
       responses:
         '200':
           description: Успешное получение списка
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JsonAccount'
+    post:
+      summary: "Создание нового аккаунта"
+      operationId: CreateAccount
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJsonAccount'
+            examples:
+              account:
+                summary: Пример аккаунта
+                value:
+                  accountName: "Vasya"
+                  accountBalance: 300
+                  accountStatus: "ACTIVE"
+      responses:
+        '200':
+          description: Успешное создание аккаунта
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateJsonAccount'
+    put:
+      summary: "Обновление данных аккаунта"
+      operationId: UpdateAccount
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonAccount'
+            examples:
+              account:
+                summary: Пример аккаунта
+                value:
+                  accountNumber: "1"
+                  accountName: "LenyaAccount"
+                  accountBalance: 300
+                  accountStatus: "ACTIVE"
+      responses:
+        '200':
+          description: Успешное обновление аккаунта
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateJsonAccount'
 
+  /account/{accountNumber}:
+    get:
+      summary: "Получение аккаунта по Id"
+      operationId: FindById
+      description: ""
+      parameters:
+        - name: "accountNumber"
+          in: "path"
+          description: "ID аккаунта"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Аккаунт успешно найден
+        '404':
+          description: Аккаунт не найден
+    delete:
+      summary: "Удаление аккаунта по Id"
+      operationId: DeleteAccount
+      description: ""
+      parameters:
+        - name: "accountNumber"
+          in: "path"
+          description: "ID аккаунта"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешное удаление аккаунта
+
+components:
+  schemas:
+    JsonAccount:
+      type: "object"
+      properties:
+        accountNumber:
+          type: "string"
+        accountName:
+          type: "string"
+        accountBalance:
+          type: "number"
+          format: "double"
+        accountStatus:
+          type: "string"
+          description: "Статус аккаунта"
+          enum:
+            - "ACTIVE"
+            - "INACTIVE"
+    JsonAccountNumber:
+      type: "object"
+      properties:
+        accountNumber:
+          type: "string"
+    CreateJsonAccount:
+      type: "object"
+      required:
+        - accountName
+        - accountBalance
+        - accountStatus
+      properties:
+        accountNumber:
+          type: "string"
+        accountName:
+          type: "string"
+        accountBalance:
+          type: "number"
+          format: "double"
+        accountStatus:
+          type: "string"
+          description: "Статус аккаунта"
+          enum:
+            - "ACTIVE"
+            - "INACTIVE"

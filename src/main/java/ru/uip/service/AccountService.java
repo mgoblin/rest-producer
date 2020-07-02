@@ -1,18 +1,15 @@
 package ru.uip.service;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import ru.uip.model.CreateJsonAccount;
 import ru.uip.model.EnumAccountStatus;
 import ru.uip.model.JsonAccount;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Service
 public class AccountService {
@@ -35,58 +32,58 @@ public class AccountService {
         accounts.add(accountAlex);
     }
 
-    public Flux<JsonAccount> accounts() {
-        return Flux.fromStream(accounts.stream());
+    public List<JsonAccount> accounts() {
+        return Collections.unmodifiableList(accounts);
     }
 
-    public ResponseEntity<Mono<JsonAccount>> findByNumber(String number) {
+    public Optional<JsonAccount> findByNumber(String number) {
         if (number == null || "".equals(number.trim())) {
-            return ResponseEntity.badRequest().build();
+            return Optional.empty();
         }
-        final Optional<JsonAccount> existingAccount = accounts.stream()
+
+        return accounts.stream()
                 .filter(a -> a.getAccountNumber().equals(number))
                 .findFirst();
-        return existingAccount.isEmpty() ?
-                ResponseEntity
-                        .notFound()
-                        .header("Content-Type", APPLICATION_JSON_VALUE).
-                        build() :
-                ResponseEntity
-                        .ok()
-                        .body(Mono.just(existingAccount.get()));
     }
 
-    private Mono<JsonAccount> findWithMono(String number) {
-        if (number == null || "".equals(number.trim()))
-            return Mono.empty();
-        else
-            return Mono.justOrEmpty(accounts.stream()
-                .filter(a -> a.getAccountNumber().equals(number)).findFirst());
+    private String generateId() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
     }
 
-    public Mono<JsonAccount> createOrUpdate(JsonAccount account) {
-        return findWithMono(account.getAccountNumber())
-                .switchIfEmpty(Mono.defer(() -> {
-                    if (account.getAccountNumber() == null || "".equals(account.getAccountNumber().trim())) {
-                        UUID uuid = UUID.randomUUID();
-                        account.setAccountNumber(uuid.toString());
-                    }
-                    accounts.add(account);
-                    return Mono.just(account); }))
-                .flatMap(a -> {
-                    a.setAccountName(account.getAccountName());
-                    a.setAccountBalance(account.getAccountBalance());
-                    a.setAccountStatus(a.getAccountStatus());
-                    return Mono.just(a);
-                });
+    private JsonAccount update(CreateJsonAccount changes, JsonAccount existingAccount) {
+        existingAccount.setAccountName(changes.getAccountName());
+        existingAccount.setAccountBalance(changes.getAccountBalance());
+        existingAccount.setAccountStatus(changes.getAccountStatus());
+        return existingAccount;
     }
 
-    public Mono<JsonAccount> delete(String accountNumber) {
-        return findWithMono(accountNumber)
-                .switchIfEmpty(Mono.error(new IllegalArgumentException()))
-                .flatMap(a -> {
-                    accounts.remove(a);
-                    return Mono.just(a);
-                });
+    private JsonAccount create(CreateJsonAccount account) {
+        if (account.getAccountNumber() == null || account.getAccountNumber().isBlank()) {
+            account.setAccountNumber(generateId());
+        }
+        return new JsonAccount(
+                account.getAccountNumber(),
+                account.getAccountName(),
+                account.getAccountBalance(),
+                account.getAccountStatus()
+        );
+    }
+
+    public JsonAccount createOrUpdate(CreateJsonAccount account) {
+        final Optional<JsonAccount> existingAccount = findByNumber(account.getAccountNumber());
+        if (existingAccount.isPresent()) {
+            return update(account, existingAccount.get());
+        } else {
+            final JsonAccount jsonAccount = create(account);
+            accounts.add(jsonAccount);
+            return jsonAccount;
+        }
+    }
+
+    public Optional<JsonAccount> delete(String accountNumber) {
+        final Optional<JsonAccount> existingAccount = findByNumber(accountNumber);
+        existingAccount.ifPresent(accounts::remove);
+        return existingAccount;
     }
 }

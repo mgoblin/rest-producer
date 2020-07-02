@@ -1,0 +1,58 @@
+description: >
+  Update account balance with id = 1.
+  Using for e2e tests.
+name: Should update account balance with id equals to 1
+request:
+  method: POST
+  url: /account
+  headers:
+    Content-type: application/json
+  body:
+    "accountNumber": "1"
+    "accountName": "MikeAccount"
+    "accountStatus": "ACTIVE"
+    "accountBalance": 900.0
+  matchers:
+    body:
+      - path: $.accountBalance
+        type: by_regex
+        predefined: number
+        regexType: as_double
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    "accountNumber": "1"
+    "accountName": "MikeAccount"
+    "accountStatus": "ACTIVE"
+    "accountBalance": "{{{ jsonpath this '$.accountBalance' }}}"
+
+---
+description: >
+  Update account balance with id = 2.
+  Using for e2e tests.
+name: Should update account balance with id equals to 2
+request:
+  method: POST
+  url: /account
+  headers:
+    Content-type: application/json
+  body:
+    "accountNumber": "2"
+    "accountName": "AlexAccount"
+    "accountStatus": "INACTIVE"
+    "accountBalance": 900
+  matchers:
+    body:
+      - path: $.accountBalance
+        type: by_regex
+        predefined: number
+        regexType: as_double
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body: "{{{ request.body }}}"
+
+

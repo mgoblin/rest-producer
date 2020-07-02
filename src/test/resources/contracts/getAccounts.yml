@@ -1,0 +1,63 @@
+---
+description: Get all accounts
+name: Should get all accounts
+request:
+  method: GET
+  url: /account
+response:
+  async: true # use async response
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    - "accountNumber": "1"
+      "accountName": "MikeAccount"
+      "accountBalance": 1000
+      "accountStatus": "ACTIVE"
+    - "accountNumber": "2"
+      "accountName": "AlexAccount"
+      "accountBalance": 200
+      "accountStatus": "INACTIVE"
+
+---
+description: Get account by account number
+name: Should get existing account
+request:
+  method: GET
+  url: /account/1
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    "accountNumber": "1"
+    "accountName": "MikeAccount"
+    "accountBalance": 1000
+    "accountStatus": "ACTIVE"
+
+---
+description: Get account by account number
+name: Should get existing account 2
+request:
+  method: GET
+  url: /account/2
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    "accountNumber": "2"
+    "accountName": "AlexAccount"
+    "accountBalance": 200
+    "accountStatus": "INACTIVE"
+
+---
+description: Return 404 on get non existing account. Response body is empty.
+name: Should return 404 on get non existing account.
+request:
+  method: GET
+  url: /account/6
+response:
+  status: 404
+  headers:
+    Content-Type: application/json

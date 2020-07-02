@@ -1,0 +1,55 @@
+description: >
+  Create account.
+  Search account by id. id is not blank and account with this id does not exists.
+  Return HTTP 200 and created account as response body.
+name: Should create account with non blank id
+request:
+  method: POST
+  url: /account
+  headers:
+    Content-type: application/json
+  body:
+    accountNumber: "3"
+    accountName: "test"
+    accountStatus: "ACTIVE"
+    accountBalance: 2001
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    accountNumber: "3"
+    accountName: "test"
+    accountStatus: "ACTIVE"
+    accountBalance: 2001
+
+---
+description: >
+  Create account.
+  Account number in request not specified (no tag name and value).
+  Generate UUID as an account id and create account.
+  Return HTTP 200 and created account as response body.
+name: Should create account with blank id
+request:
+  method: POST
+  url: /account
+  headers:
+    Content-type: application/json
+  body:
+    accountName: "test"
+    accountStatus: "ACTIVE"
+    accountBalance: 2001
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    accountNumber: "8ffe556a-4f72-4cda-aaf5-ba55f2016455"
+    accountName: "test"
+    accountStatus: "ACTIVE"
+    accountBalance: 2001
+  matchers:
+    body:
+      - path: $.accountNumber
+        type: by_regex
+        value: "[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}"

@@ -5,11 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.uip.model.CreateJsonAccount;
 import ru.uip.model.JsonAccount;
 import ru.uip.model.JsonAccountNumber;
 import ru.uip.service.AccountService;
 
 import javax.validation.Valid;
+
+import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -26,24 +29,38 @@ public class AccountController {
 
     @GetMapping
     public Flux<JsonAccount> getAccounts() {
-        return accountService.accounts();
+        return Flux.fromIterable(accountService.accounts());
     }
 
     @GetMapping(value = "/{accountNumber}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Mono<JsonAccount>> getAccount(
             @PathVariable(name = "accountNumber") String accountNumber) {
-
-        return accountService.findByNumber(accountNumber);
+        final Optional<JsonAccount> existingAccount = accountService.findByNumber(accountNumber);
+        return existingAccount
+                .map(jsonAccount -> ResponseEntity.ok(Mono.just(jsonAccount)))
+                .orElseGet(() -> ResponseEntity
+                        .notFound()
+                        .header("Content-type", APPLICATION_JSON_VALUE)
+                        .build());
     }
 
     @PostMapping
-    public Mono<JsonAccount> createOrUpdate(@RequestBody @Valid JsonAccount account) {
-        return accountService.createOrUpdate(account);
+    public ResponseEntity<Mono<JsonAccount>> update(@RequestBody @Valid CreateJsonAccount account) {
+        final Optional<JsonAccount> updatedAccount = Optional.of(accountService.createOrUpdate(account));
+        return updatedAccount
+                .map(jsonAccount -> ResponseEntity.ok(Mono.just(jsonAccount)))
+                .orElseGet(() -> ResponseEntity
+                        .notFound()
+                        .header("Content-type", APPLICATION_JSON_VALUE)
+                        .build());
     }
 
     @DeleteMapping
-    public Mono<JsonAccount> delete(@RequestBody @Valid JsonAccountNumber accountNumber) {
-        return accountService.delete(accountNumber.getAccountNumber());
+    public ResponseEntity<Mono<JsonAccount>> delete(@RequestBody @Valid JsonAccountNumber accountNumber) {
+        final Optional<JsonAccount> deletedAccount = accountService.delete(accountNumber.getAccountNumber());
+        return deletedAccount
+                .map(jsonAccount -> ResponseEntity.ok(Mono.just(jsonAccount)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

@@ -1,0 +1,22 @@
+description: >
+  Delete existing account balance with id = 1.
+name: Should delete account with id equals to 1
+request:
+  method: DELETE
+  url: /account
+  headers:
+    Content-type: application/json
+  body:
+    "accountNumber": "1"
+    "accountName": "MikeAccount"
+    "accountStatus": "ACTIVE"
+    "accountBalance": 1000.0
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    "accountNumber": "1"
+    "accountName": "MikeAccount"
+    "accountStatus": "ACTIVE"
+    "accountBalance": 1000

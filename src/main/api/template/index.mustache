@@ -16,3 +16,82 @@
 
 == Методы API
 
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+
+
+{{#operation}}
+
+[.{{nickname}}]
+{{#useMethodAndPath}}
+==== {{httpMethod}} {{path}}
+
+Operation Id:: {{nickname}}
+
+{{/useMethodAndPath}}
+{{^useMethodAndPath}}
+==== {{nickname}}
+
+`{{httpMethod}} {{path}}`
+{{/useMethodAndPath}}
+
+
+===== Описание
+
+{{{summary}}}
+
+{{{notes}}}
+
+{{#specinclude}}{{path}}/{{httpMethod}}/spec.adoc{{/specinclude}}
+
+{{#hasParams}}
+===== Параметр
+{{#allParams}}
+[%header,cols=3*]
+|===
+|Имя параметра
+|Описание параметра
+|Требуется
+
+|{{paramName}}
+|{{description}}
+|{{required}}
+|===
+{{/allParams}}
+{{/hasParams}}
+
+
+===== Возвращаемый тип
+
+{{#hasReference}}
+{{^returnSimpleType}}{{returnContainer}}[{{/returnSimpleType}}<<{{returnBaseType}}>>{{^returnSimpleType}}]{{/returnSimpleType}}
+{{/hasReference}}
+
+{{^hasReference}}
+{{#returnType}}<<{{returnType}}>>{{/returnType}}
+{{^returnType}}Отсутствует{{/returnType}}
+{{/hasReference}}
+
+{{#hasProduces}}
+===== Тип содержимого
+
+{{#produces}}
+* {{{mediaType}}}
+{{/produces}}
+{{/hasProduces}}
+
+===== Ответы
+
+{{#responses}}
+
+| {{code}}
+| {{message}}
+| {{^simpleType}}{{dataType}}[<<{{baseType}}>>]{{/simpleType}} {{#simpleType}}<<{{dataType}}>>{{/simpleType}}
+
+{{/responses}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+|===

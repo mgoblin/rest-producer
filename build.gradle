@@ -81,7 +81,7 @@ apiContractSpec {
     apiSpec = "$projectDir/src/main/api/api.yaml"
     operationContracts = [
             'GetAccounts': files(
-                    "${projectDir}/src/test/resources/contracts/GetAccounts.yml"
+                    "${projectDir}/src/test/resources/contracts/getAccounts.yml"
             )
     ]
 }

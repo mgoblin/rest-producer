@@ -80,9 +80,9 @@ jacocoTestReport {
 apiContractSpec {
     apiSpec = "$projectDir/src/main/api/api.yaml"
     operationContracts = [
-            'GetAccounts': [
-                    "${projectDir}/src/test/resources/contracts/*.yaml"
-            ]
+            'GetAccounts': files(
+                    "${projectDir}/src/test/resources/contracts/GetAccounts.yml"
+            )
     ]
 }
 

@@ -83,13 +83,21 @@ Operation Id:: {{nickname}}
 
 ===== Ответы
 
+[%header,cols=3*]
+|===
+|Код ответа
+|Описание
+|Возвращаемый тип
+
 {{#responses}}
-
-| {{code}}
-| {{message}}
-| {{^simpleType}}{{dataType}}[<<{{baseType}}>>]{{/simpleType}} {{#simpleType}}<<{{dataType}}>>{{/simpleType}}
-
+|{{code}}
+|{{message}}
+|{{^simpleType}}{{dataType}}[<<{{baseType}}>>]{{/simpleType}} {{#simpleType}}<<{{dataType}}>>{{/simpleType}}
 {{/responses}}
+|===
+
+
+
 {{/operation}}
 {{/operations}}
 {{/apis}}

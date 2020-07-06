@@ -93,11 +93,14 @@ components:
       properties:
         accountNumber:
           type: "string"
+          description: "Номер аккаунта"
         accountName:
           type: "string"
+          description: "Имя аккаунта"
         accountBalance:
           type: "number"
           format: "double"
+          description: "Баланс аккаунта"
         accountStatus:
           type: "string"
           description: "Статус аккаунта"
@@ -113,11 +116,14 @@ components:
       properties:
         accountNumber:
           type: "string"
+          description: "Номер аккаунта"
         accountName:
           type: "string"
+          description: "Имя аккаунта"
         accountBalance:
           type: "number"
           format: "double"
+          description: "Баланс аккаунта"
         accountStatus:
           type: "string"
           description: "Статус аккаунта"

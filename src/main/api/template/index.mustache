@@ -47,7 +47,7 @@ Operation Id:: {{nickname}}
 
 {{#hasParams}}
 {{#bodyParam}}
-==== Параметр тела
+==== Тело параметра
 {{/bodyParam}}
 {{^bodyParam}}
 ==== Параметр пути
@@ -97,7 +97,9 @@ Operation Id:: {{nickname}}
 |{{code}}
 |{{message}}
 |{{^simpleType}}
-{{dataType}}[<<{{baseType}}>>]
+{{#hasReference}}
+{{^returnSimpleType}}{{returnContainer}}[{{/returnSimpleType}}<<{{returnBaseType}}>>{{^returnSimpleType}}]{{/returnSimpleType}}
+{{/hasReference}}
 {{/simpleType}}
 {{#simpleType}}{{#dataType}}<<{{dataType}}>>{{/dataType}}{{^dataType}}Отсутствует{{/dataType}}{{/simpleType}}
 {{/responses}}
@@ -108,4 +110,23 @@ Operation Id:: {{nickname}}
 {{/apis}}
 {{/apiInfo}}
 
-{{> model}}
+== Модель
+{{#models}}
+{{#model}}
+=== {{classname}}
+[%header,cols=4*]
+|===
+|Имя поля
+|Тип
+|Описание
+|Требуется
+
+{{#vars}}
+|{{baseName}}
+|{{dataType}}
+|{{description}}
+|{{required}}
+{{/vars}}
+{{/model}}
+|===
+{{/models}}

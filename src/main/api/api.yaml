@@ -64,6 +64,10 @@ paths:
       responses:
         '200':
           description: Аккаунт успешно найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonAccount'
         '404':
           description: Аккаунт не найден
     delete:

@@ -25,19 +25,19 @@
 
 [.{{nickname}}]
 {{#useMethodAndPath}}
-==== {{httpMethod}} {{path}}
+=== {{httpMethod}} {{path}}
 
 Operation Id:: {{nickname}}
 
 {{/useMethodAndPath}}
 {{^useMethodAndPath}}
-==== {{nickname}}
+=== {{nickname}}
 
 `{{httpMethod}} {{path}}`
 {{/useMethodAndPath}}
 
 
-===== Описание
+==== Описание
 
 {{{summary}}}
 
@@ -46,23 +46,28 @@ Operation Id:: {{nickname}}
 {{#specinclude}}{{path}}/{{httpMethod}}/spec.adoc{{/specinclude}}
 
 {{#hasParams}}
-===== Параметр
-{{#allParams}}
+==== Параметр
+{{#bodyParam}}
+==== Body parameter
+{{/bodyParam}}
+{{^bodyParam}}
+==== Path parameter
+{{/bodyParam}}
 [%header,cols=3*]
 |===
 |Имя параметра
-|Описание параметра
+|Описание
 |Требуется
 
+{{#allParams}}
 |{{paramName}}
 |{{description}}
 |{{required}}
-|===
 {{/allParams}}
+|===
 {{/hasParams}}
 
-
-===== Возвращаемый тип
+==== Возвращаемый тип
 
 {{#hasReference}}
 {{^returnSimpleType}}{{returnContainer}}[{{/returnSimpleType}}<<{{returnBaseType}}>>{{^returnSimpleType}}]{{/returnSimpleType}}
@@ -74,14 +79,14 @@ Operation Id:: {{nickname}}
 {{/hasReference}}
 
 {{#hasProduces}}
-===== Тип содержимого
+==== Тип содержимого
 
 {{#produces}}
 * {{{mediaType}}}
 {{/produces}}
 {{/hasProduces}}
 
-===== Ответы
+==== Ответы
 
 [%header,cols=3*]
 |===
@@ -95,8 +100,6 @@ Operation Id:: {{nickname}}
 |{{^simpleType}}{{dataType}}[<<{{baseType}}>>]{{/simpleType}} {{#simpleType}}<<{{dataType}}>>{{/simpleType}}
 {{/responses}}
 |===
-
-
 
 {{/operation}}
 {{/operations}}

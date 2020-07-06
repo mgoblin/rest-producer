@@ -46,12 +46,11 @@ Operation Id:: {{nickname}}
 {{#specinclude}}{{path}}/{{httpMethod}}/spec.adoc{{/specinclude}}
 
 {{#hasParams}}
-==== Параметр
 {{#bodyParam}}
-==== Body parameter
+==== Параметр тела
 {{/bodyParam}}
 {{^bodyParam}}
-==== Path parameter
+==== Параметр пути
 {{/bodyParam}}
 [%header,cols=3*]
 |===
@@ -97,7 +96,10 @@ Operation Id:: {{nickname}}
 {{#responses}}
 |{{code}}
 |{{message}}
-|{{^simpleType}}{{dataType}}[<<{{baseType}}>>]{{/simpleType}} {{#simpleType}}<<{{dataType}}>>{{/simpleType}}
+|{{^simpleType}}
+{{dataType}}[<<{{baseType}}>>]
+{{/simpleType}}
+{{#simpleType}}{{#dataType}}<<{{dataType}}>>{{/dataType}}{{^dataType}}Отсутствует{{/dataType}}{{/simpleType}}
 {{/responses}}
 |===
 

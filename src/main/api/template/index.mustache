@@ -45,26 +45,7 @@ Operation Id:: {{nickname}}
 
 {{#specinclude}}{{path}}/{{httpMethod}}/spec.adoc{{/specinclude}}
 
-{{#hasParams}}
-{{#bodyParam}}
-==== Тело параметра
-{{/bodyParam}}
-{{^bodyParam}}
-==== Параметр пути
-{{/bodyParam}}
-[%header,cols=3*]
-|===
-|Имя параметра
-|Описание
-|Требуется
 
-{{#allParams}}
-|{{paramName}}
-|{{description}}
-|{{required}}
-{{/allParams}}
-|===
-{{/hasParams}}
 
 {{> params}}
 
@@ -113,24 +94,3 @@ Operation Id:: {{nickname}}
 {{/apiInfo}}
 
 {{> model}}
-
-== Модель
-{{#models}}
-{{#model}}
-=== {{classname}}
-[%header,cols=4*]
-|===
-|Имя поля
-|Тип
-|Описание
-|Требуется
-
-{{#vars}}
-|{{baseName}}
-|{{dataType}}
-|{{description}}
-|{{required}}
-{{/vars}}
-{{/model}}
-|===
-{{/models}}

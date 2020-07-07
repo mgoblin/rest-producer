@@ -1,11 +1,9 @@
-===== Параметры!!!
-
 {{#hasPathParams}}
-====== Path Parameters
+==== Параметр пути
 
-[cols="2,3,1,1,1"]
+[cols="3"]
 |===
-|Name| Description| Required| Default| Pattern
+| Имя| Описание| Требуется
 
 {{#pathParams}}
 {{>param}}
@@ -14,11 +12,11 @@
 {{/hasPathParams}}
 
 {{#hasBodyParam}}
-===== Body Parameter
+==== Тело параметра
 
-[cols="2,3,1,1,1"]
+[cols="3"]
 |===
-|Name| Description| Required| Default| Pattern
+| Имя| Описание| Требуется
 
 {{#bodyParams}}
 {{>param}}
@@ -31,7 +29,7 @@
 
 [cols="2,3,1,1,1"]
 |===
-|Name| Description| Required| Default| Pattern
+| Имя| Описание| Требуется| Default| Pattern
 
 {{#formParams}}
 {{>param}}
@@ -44,7 +42,7 @@
 
 [cols="2,3,1,1,1"]
 |===
-|Name| Description| Required| Default| Pattern
+| Имя| Описание| Требуется| Default| Pattern
 
 {{#headerParams}}
 {{>param}}
@@ -57,7 +55,7 @@
 
 [cols="2,3,1,1,1"]
 |===
-|Name| Description| Required| Default| Pattern
+| Имя| Описание| Требуется| Default| Pattern
 
 {{#queryParams}}
 {{>param}}

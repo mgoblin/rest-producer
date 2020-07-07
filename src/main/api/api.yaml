@@ -94,6 +94,11 @@ components:
   schemas:
     JsonAccount:
       type: "object"
+      required:
+        - accountNumber
+        - accountName
+        - accountBalance
+        - accountStatus
       properties:
         accountNumber:
           type: "string"

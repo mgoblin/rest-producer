@@ -84,6 +84,7 @@ apiContractSpec {
                     "${projectDir}/src/test/resources/contracts/getAccounts.yml"
             )
     ]
+    outputDir = "${buildDir}/generated-snippets/contract-description/"
 }
 
 build.dependsOn("asciidoctor")

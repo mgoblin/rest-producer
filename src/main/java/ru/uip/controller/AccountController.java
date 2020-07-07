@@ -46,7 +46,6 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<Mono<JsonAccount>> createOrUpdate(@RequestBody @Valid CreateJsonAccount account) {
-        System.out.println(account);
         final JsonAccount updatedAccount = accountService.createOrUpdate(account);
         return ResponseEntity.ok(Mono.just(updatedAccount));
     }

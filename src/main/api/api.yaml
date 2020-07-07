@@ -31,6 +31,7 @@ paths:
       operationId: CreateOrUpdateAccount
       requestBody:
         required: true
+        description: "Новый аккаунт или измененный аккаунт"
         content:
           application/json:
             schema:
@@ -63,6 +64,10 @@ paths:
       responses:
         '200':
           description: Аккаунт успешно найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonAccount'
         '404':
           description: Аккаунт не найден
     delete:
@@ -78,6 +83,10 @@ paths:
       responses:
         '200':
           description: Успешное удаление аккаунта
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonAccount'
         '404':
           description: Аккаунт не найден
 
@@ -88,11 +97,14 @@ components:
       properties:
         accountNumber:
           type: "string"
+          description: "Номер аккаунта"
         accountName:
           type: "string"
+          description: "Имя аккаунта"
         accountBalance:
           type: "number"
           format: "double"
+          description: "Баланс аккаунта"
         accountStatus:
           type: "string"
           description: "Статус аккаунта"
@@ -108,11 +120,14 @@ components:
       properties:
         accountNumber:
           type: "string"
+          description: "Номер аккаунта"
         accountName:
           type: "string"
+          description: "Имя аккаунта"
         accountBalance:
           type: "number"
           format: "double"
+          description: "Баланс аккаунта"
         accountStatus:
           type: "string"
           description: "Статус аккаунта"

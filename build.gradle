@@ -82,9 +82,19 @@ apiContractSpec {
     operationContracts = [
             'GetAccounts': files(
                     "${projectDir}/src/test/resources/contracts/getAccounts.yml"
+            ),
+            'CreateOrUpdateAccount': files(
+                    "${projectDir}/src/test/resources/contracts/createAccounts.yml",
+                    "${projectDir}/src/test/resources/contracts/updateAccounts.yml"
+            ),
+            'FindAccountById': files(
+                    "${projectDir}/src/test/resources/contracts/findAccountById.yml"
+            ),
+            'DeleteAccount': files(
+                    "${projectDir}/src/test/resources/contracts/deleteAccount.yml"
             )
     ]
-    outputDir = "${buildDir}/generated-snippets/contract-description/"
+    outputDir = "${buildDir}/generated-docs"
 }
 
 build.dependsOn("asciidoctor")

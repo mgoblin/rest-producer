@@ -82,6 +82,15 @@ apiContractSpec {
     operationContracts = [
             'GetAccounts': files(
                     "${projectDir}/src/test/resources/contracts/getAccounts.yml"
+            ),
+            'DeleteAccount': files(
+                    "${projectDir}/src/test/resources/contracts/deleteAccount.yml"
+            ),
+            'CreateOrUpdateAccount': files(
+                    "${projectDir}/src/test/resources/contracts/updateAccounts.yml"
+            ),
+            'FindAccountById': files(
+                    "${projectDir}/src/test/resources/contracts/createAccounts.yml"
             )
     ]
     outputDir = "${buildDir}/generated-snippets/contract-description/"

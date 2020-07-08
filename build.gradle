@@ -47,13 +47,13 @@ openApiGenerate {
     templateDir = "$projectDir/src/main/api/template".toString()
     outputDir = "$buildDir/generated-docs".toString()
     configOptions = [
-            specDir: "$projectDir/src/main/api/template".toString(),
+            specDir: "${buildDir}/generated-snippets/specs".toString(),
             snippetDir: "$projectDir/src/main/api/template".toString()
     ]
 }
 
 asciidoctor {
-    sourceDir  file("${buildDir}/generated-docs")
+    sourceDir  file("${buildDir}")
     outputDir  file('build/docs')
 }
 
@@ -80,24 +80,25 @@ jacocoTestReport {
 apiContractSpec {
     apiSpec = "$projectDir/src/main/api/api.yaml"
     operationContracts = [
-            'GetAccounts': files(
+            'getAccounts': files(
                     "${projectDir}/src/test/resources/contracts/getAccounts.yml"
             ),
-            'CreateOrUpdateAccount': files(
+            'createOrUpdateAccount': files(
                     "${projectDir}/src/test/resources/contracts/createAccounts.yml",
                     "${projectDir}/src/test/resources/contracts/updateAccounts.yml"
             ),
-            'FindAccountById': files(
+            'findAccountById': files(
                     "${projectDir}/src/test/resources/contracts/findAccountById.yml"
             ),
-            'DeleteAccount': files(
+            'deleteAccount': files(
                     "${projectDir}/src/test/resources/contracts/deleteAccount.yml"
             )
     ]
-    outputDir = "${buildDir}/generated-docs"
+    outputDir = "${buildDir}/generated-snippets/specs"
 }
 
 build.dependsOn("asciidoctor")
 asciidoctor.dependsOn("generate-api-spec")
 asciidoctor.dependsOn("openApiGenerate")
+asciidoctor.mustRunAfter('test')
 

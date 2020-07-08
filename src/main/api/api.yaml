@@ -16,7 +16,7 @@ paths:
   /account:
     get:
       summary: "Получение списка аккаунтов"
-      operationId: GetAccounts
+      operationId: getAccounts
       responses:
         '200':
           description: Успешное получение списка
@@ -28,7 +28,7 @@ paths:
                   $ref: '#/components/schemas/JsonAccount'
     post:
       summary: "Создание нового или обновление существующего аккаунта"
-      operationId: CreateOrUpdateAccount
+      operationId: createOrUpdateAccount
       requestBody:
         required: true
         description: "Новый аккаунт или измененный аккаунт"
@@ -53,7 +53,7 @@ paths:
   /account/{accountNumber}:
     get:
       summary: "Поиск аккаунта по Id"
-      operationId: FindAccountById
+      operationId: findAccountById
       parameters:
         - name: "accountNumber"
           in: "path"
@@ -72,7 +72,7 @@ paths:
           description: Аккаунт не найден
     delete:
       summary: "Удаление аккаунта по Id"
-      operationId: DeleteAccount
+      operationId: deleteAccount
       parameters:
         - name: "accountNumber"
           in: "path"

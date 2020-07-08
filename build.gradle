@@ -88,6 +88,6 @@ apiContractSpec {
 }
 
 build.dependsOn("asciidoctor")
+asciidoctor.dependsOn("generate-api-spec")
 asciidoctor.dependsOn("openApiGenerate")
-//TODO Run generate-api-spec on build
 

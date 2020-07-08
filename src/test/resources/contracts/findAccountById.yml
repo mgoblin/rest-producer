@@ -1,6 +1,7 @@
 ---
-description: Get account by account number
-name: Should get existing account
+description: >
+  В результате запроса на поиск аккаунта с номером 1 сервис возвращает JSON объект аккаунта 1
+name: Поиск по номеру существующего аккаунта 1
 request:
   method: GET
   url: /account/1
@@ -15,8 +16,9 @@ response:
     "accountStatus": "ACTIVE"
 
 ---
-description: Get account by account number
-name: Should get existing account 2
+description: >
+  В результате запроса на поиск аккаунта с номером 2 сервис возвращает JSON объект аккаунта 2
+name: Поиск по номеру существующего аккаунта 2
 request:
   method: GET
   url: /account/2
@@ -31,8 +33,10 @@ response:
     "accountStatus": "INACTIVE"
 
 ---
-description: Return 404 on get non existing account. Response body is empty.
-name: Should return 404 on get non existing account.
+description: >
+  Возвращает HTTP код 404 при попытке найти по номеру несуществующий аккаунт.
+  Тело ответа пустое.
+name: Попытка найти несуществующий аккаунт по номеру
 request:
   method: GET
   url: /account/6

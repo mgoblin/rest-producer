@@ -1,6 +1,6 @@
 description: >
-  Delete existing account balance with id = 1.
-name: Should delete account with id equals to 1
+  При удалении сервис в теле ответа возращает JSON удаленного аккаунта.
+name: Удаление существующего аккаунта с номером 1
 request:
   method: DELETE
   url: /account/1
@@ -17,8 +17,9 @@ response:
     "accountBalance": 1000
 ---
 description: >
-  On delete nonexisting account return HTTP 404.
-name: Should try to delete nonexistent account
+  Если аккаунт с заданным номером не существует,
+  то сервис возвращает ошибку с кодом HTTP 404 и пустым телом ответа.
+name: Попытка удаления несуществующего аккаунта
 request:
   method: DELETE
   url: /account/100

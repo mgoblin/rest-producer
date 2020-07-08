@@ -1,6 +1,6 @@
 ---
-description: Get all accounts
-name: Should get all accounts
+description: Успешное получение всех учетных записей
+name: Получение всех учетных записей
 request:
   method: GET
   url: /account

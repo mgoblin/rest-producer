@@ -1,8 +1,10 @@
 description: >
-  Create account.
-  Search account by id. id is not blank and account with this id does not exists.
-  Return HTTP 200 and created account as response body.
-name: Should create account with non blank id
+  В теле запроса присылается JSON, в том числе с полем номер акаунта.
+  Сервис проверяет существование аккаунта с заданным номером. Если аккаунт найдет,
+  то происходит обновление.
+  Если аккаунт не найден, то создается новый аккаунт.
+  В теле ответа возвращается JSON аккаунта
+name: Создание нового аккаунта с указанием номера
 request:
   method: POST
   url: /account
@@ -25,11 +27,9 @@ response:
 
 ---
 description: >
-  Create account.
-  Account number in request not specified (no tag name and value).
-  Generate UUID as an account id and create account.
-  Return HTTP 200 and created account as response body.
-name: Should create account with blank id
+  В запросе на создание можно не указывать номер аккаунта.
+  В этом случае сервис генеруриет номер в виде UUID.
+name: Создание аккаунта с автогенерируемым номером
 request:
   method: POST
   url: /account

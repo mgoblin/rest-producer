@@ -1,7 +1,8 @@
 description: >
-  Update account balance with id = 1.
-  Using for e2e tests.
-name: Should update account balance with id equals to 1
+  В запросе от клиента приходит JSON аккакунта с номером 1 и измененным полем баланса.
+  Сервис устанавливает новое значение баланса аккаунта.
+  В ответе сервис возвращает JON c обновленным аккаунтом.
+name: Обновление баланса учетной записи 1
 request:
   method: POST
   url: /account
@@ -30,9 +31,10 @@ response:
 
 ---
 description: >
-  Update account balance with id = 2.
-  Using for e2e tests.
-name: Should update account balance with id equals to 2
+  В запросе от клиента приходит JSON аккакунта с номером 1 и измененным полем баланса.
+  Сервис устанавливает новое значение баланса аккаунта.
+  В ответе сервис возвращает JON c обновленным аккаунтом.
+name: Обновление баланса учетной записи 2
 request:
   method: POST
   url: /account

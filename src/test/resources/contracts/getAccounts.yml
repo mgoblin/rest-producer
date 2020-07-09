@@ -5,7 +5,6 @@ request:
   method: GET
   url: /account
 response:
-  async: true # use async response
   status: 200
   headers:
     Content-Type: application/json

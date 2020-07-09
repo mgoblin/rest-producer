@@ -3,15 +3,13 @@ package ru.uip.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import ru.uip.model.CreateJsonAccount;
 import ru.uip.model.JsonAccount;
 import ru.uip.service.AccountService;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -28,16 +26,16 @@ public class AccountController {
     }
 
     @GetMapping
-    public Flux<JsonAccount> getAccounts() {
-        return Flux.fromIterable(accountService.accounts());
+    public List<JsonAccount> getAccounts() {
+        return accountService.accounts();
     }
 
     @GetMapping(value = "/{accountNumber}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Mono<JsonAccount>> getAccount(
+    public ResponseEntity<JsonAccount> getAccount(
             @NotBlank @PathVariable(name = "accountNumber") String accountNumber) {
         final Optional<JsonAccount> existingAccount = accountService.findByNumber(accountNumber);
         return existingAccount
-                .map(jsonAccount -> ResponseEntity.ok(Mono.just(jsonAccount)))
+                .map(jsonAccount -> ResponseEntity.ok(jsonAccount))
                 .orElseGet(() -> ResponseEntity
                         .notFound()
                         .header("Content-type", APPLICATION_JSON_VALUE)
@@ -45,20 +43,19 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Mono<JsonAccount>> createOrUpdate(@RequestBody @Valid CreateJsonAccount account) {
+    public ResponseEntity<JsonAccount> createOrUpdate(@RequestBody @Valid CreateJsonAccount account) {
         final JsonAccount updatedAccount = accountService.createOrUpdate(account);
-        return ResponseEntity.ok(Mono.just(updatedAccount));
+        return ResponseEntity.ok(updatedAccount);
     }
 
     @DeleteMapping(value = "/{accountNumber}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Mono<JsonAccount>> delete(@NotBlank @PathVariable(name = "accountNumber") String accountNumber) {
+    public ResponseEntity<JsonAccount> delete(@NotBlank @PathVariable(name = "accountNumber") String accountNumber) {
         final Optional<JsonAccount> deletedAccount = accountService.delete(accountNumber);
         return deletedAccount
-                .map(jsonAccount -> ResponseEntity.ok(Mono.just(jsonAccount)))
+                .map(jsonAccount -> ResponseEntity.ok(jsonAccount))
                 .orElseGet(() -> ResponseEntity
                         .notFound()
                         .header("Content-type", APPLICATION_JSON_VALUE)
                         .build());
     }
-
 }

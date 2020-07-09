@@ -94,6 +94,7 @@ apiContractSpec {
                     "${projectDir}/src/test/resources/contracts/deleteAccount.yml"
             )
     ]
+    template = "${projectDir}/src/main/api/template/spec.mustache"
     outputDir = "${buildDir}/generated-snippets/specs"
 }
 

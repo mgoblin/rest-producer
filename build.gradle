@@ -95,6 +95,7 @@ apiContractSpec {
             )
     ]
     template = "${projectDir}/src/main/api/template/spec.mustache"
+    snippetsDir = "${buildDir}/generated-snippets/contract"
     outputDir = "${buildDir}/generated-snippets/specs"
 }
 

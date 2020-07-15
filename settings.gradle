@@ -11,7 +11,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'producer'
+rootProject.name = 'async-producer'
 
 
 

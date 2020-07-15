@@ -104,4 +104,5 @@ build.dependsOn("asciidoctor")
 asciidoctor.dependsOn("generate-api-spec")
 asciidoctor.dependsOn("openApiGenerate")
 asciidoctor.mustRunAfter('test')
+build.finalizedBy(publishToMavenLocal)
 

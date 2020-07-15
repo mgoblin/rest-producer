@@ -12,7 +12,7 @@ request:
     Content-type: application/json
   body:
     accountNumber: "3"
-    accountName: "test"
+    accountName: "DanielAccount"
     accountStatus: "ACTIVE"
     accountBalance: 2001
 response:
@@ -21,7 +21,7 @@ response:
     Content-Type: application/json
   body:
     accountNumber: "3"
-    accountName: "test"
+    accountName: "DanielAccount"
     accountStatus: "ACTIVE"
     accountBalance: 2001
 
@@ -36,7 +36,7 @@ request:
   headers:
     Content-type: application/json
   body:
-    accountName: "test"
+    accountName: "RubenAccount"
     accountStatus: "ACTIVE"
     accountBalance: 2001
 response:
@@ -45,7 +45,7 @@ response:
     Content-Type: application/json
   body:
     accountNumber: "8ffe556a-4f72-4cda-aaf5-ba55f2016455"
-    accountName: "test"
+    accountName: "RubenAccount"
     accountStatus: "ACTIVE"
     accountBalance: 2001
   matchers:
